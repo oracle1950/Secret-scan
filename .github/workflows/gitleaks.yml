@@ -1,22 +1,17 @@
-name: 🔐 Gitleaks Secret Scan
+name: Run Gitleaks scan
 
 on: [push, pull_request]
 
 jobs:
   gitleaks:
-    name: Run Gitleaks Secret Scanner
+    name: Gitleaks Scan
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout Repo
-      uses: actions/checkout@v3
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
-    - name: Scan with Gitleaks
-      uses: gitleaks/gitleaks-action@v2
-      with:
-        args: detect --source=. --report-format=sarif --report-path=gitleaks.sarif
-
-    - name: Upload Gitleaks Report
-      uses: github/codeql-action/upload-sarif@v2
-      with:
-        sarif_file: gitleaks.sarif
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        with:
+          scan-dir: .
+          fail: true
